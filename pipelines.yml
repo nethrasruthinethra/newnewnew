@@ -1,0 +1,37 @@
+resources:
+  - name: repo
+    type: GitRepo
+    configuration:
+      gitProvider: my_github
+      path: nethrasruthinethra/newnewnew # replace jfrog with your username or org name
+      branches:
+        include: main
+        
+  - name: Info
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: hello
+      buildName: test
+      buildNumber: 1   
+      
+pipelines:
+  - name: BuildAgent_JFrog_example
+    configuration:
+      nodePool: test
+    steps:
+      - name: BuildAgent_JFrog_step1
+        type: Bash
+        execution:
+          onExecute:
+            - echo "$step_name is running in $step_platform on $step_node_pool_name"
+ 
+      - name: BuildAgent_JFrog_step3
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: BuildAgent_JFrog_step1
+        execution:
+          onExecute:
+            - echo "$step_name is running in $step_platform on $step_node_pool_name"
+ 
+
